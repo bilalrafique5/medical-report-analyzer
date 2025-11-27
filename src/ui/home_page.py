@@ -9,7 +9,6 @@ def show_home():
     - Diabetes
     - Heart disease
     - Anemia
-    - High blood pressure
 
     Use the left sidebar to navigate:
     - Manual Input: enter values yourself

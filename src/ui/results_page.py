@@ -1,4 +1,3 @@
-# src/ui/results_page.py
 import streamlit as st
 from src.ml.predictor import predict_all
 from src.utils.explain_results import explain
@@ -10,20 +9,23 @@ def show_results():
     if not values:
         st.info("No input values found. Go to 'Manual Input' or 'Upload Report (OCR)' first.")
         return
+
     st.subheader("Input Values Used")
     st.write(values)
 
-    # run predictions
     preds = predict_all(values)
     st.subheader("Model Probabilities")
     for k, v in preds.items():
         prob = v.get("probability")
+        error_or_missing = v.get("error")
         if prob is None:
-            st.write(f"{k.title()}: Model not available or error ({v.get('error')})")
+            st.write(f"{k.title()}: Model not available or error ({error_or_missing})")
         else:
             st.metric(label=f"{k.title()} risk", value=f"{prob*100:.1f}%")
+            if error_or_missing:
+                st.warning(f"Missing features for {k}: {error_or_missing}")
+
     st.markdown("---")
-    # explanations
     expl = explain(values, preds)
     st.subheader("Explanations")
     for k, msg in expl.items():
@@ -31,7 +33,6 @@ def show_results():
 
     st.markdown("---")
     st.subheader("Value vs Normal Range Charts")
-    # Display charts for keys we have ranges for
     for k, val in values.items():
         try:
             show_value_vs_range(k, float(val))

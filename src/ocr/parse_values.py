@@ -1,46 +1,39 @@
 # src/ocr/parse_values.py
-
 import re
+from src.ml.feature_map import get_feature_list
 
-def _find_number_after_keyword(text,keywords):
-    """ Search for a number after any of the keywords inside text.
-        Returnsfloat or None"""
-        
-    for kw in keywords:
-        pattern=rf"{kw}[^0-9\-—:]*(?:[:\-]?\s*)(\d+\.?\d*)"
-        m=re.search(pattern,text, flags=re.IGNORECASE)
-        if m:
-            try:
-                return float(m.group(1))
-            except:
-                continue
-    return None
-
-
-def parse_medical_values(ocr_text):
-    """ 
-    Return dictionary of detected medical values.
-    Add more keys / keywords as needed for your local lab formats.
-    
-    
+def parse_medical_values(text):
     """
-    text = ocr_text.lower()
-    out = {}
-    # glucose / blood sugar
-    out["glucose"] = _find_number_after_keyword(text, ["glucose", "blood sugar", "sugar"])
-    # cholesterol
-    out["cholesterol"] = _find_number_after_keyword(text, ["cholesterol", "chol"])
-    # hemoglobin
-    out["hemoglobin"] = _find_number_after_keyword(text, ["hemoglobin", "hb"])
-    # rbc
-    out["rbc"] = _find_number_after_keyword(text, ["rbc"])
-    # platelets
-    out["platelets"] = _find_number_after_keyword(text, ["platelets", "plt"])
-    # systolic / diastolic common labels
-    out["systolic"] = _find_number_after_keyword(text, ["systolic", "sbp"])
-    out["diastolic"] = _find_number_after_keyword(text, ["diastolic", "dbp"])
-    # bmi
-    out["bmi"] = _find_number_after_keyword(text, ["bmi"])
-    # filter None values
-    return {k: v for k, v in out.items() if v is not None}
-    
+    Parse numeric values from OCR text and map them to lowercase keys.
+    Returns dict suitable for predictor (all lowercase keys).
+    """
+    # Convert text to lowercase for easier matching
+    text_lower = text.lower()
+
+    # Regex to capture "key: value" or "key value" patterns
+    pattern = r'([a-zA-Z ]+)[\s:]+([\d.]+)'
+    matches = re.findall(pattern, text_lower)
+
+    extracted = {}
+    for key, val in matches:
+        key_clean = key.strip().replace(" ", "")  # remove spaces
+        try:
+            val_float = float(val)
+            extracted[key_clean] = val_float
+        except:
+            continue
+
+    # Map extracted keys to expected feature names
+    features_needed = set()
+    for model_key in ["diabetes","heart","anemia"]:
+        features_needed.update([f.lower() for f in get_feature_list(model_key)])
+
+    # Keep only needed keys
+    mapped = {}
+    for f in features_needed:
+        if f in extracted:
+            mapped[f] = extracted[f]
+        else:
+            mapped[f] = 0  # default value if not found
+
+    return mapped
