@@ -1,9 +1,0 @@
-streamlit
-pandas
-numpy
-scikit-learn==1.6.1   # match your trained models to avoid pickle warnings
-pillow
-pytesseract
-opencv-python
-matplotlib
-plotly

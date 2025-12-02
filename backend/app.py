@@ -1,11 +1,11 @@
 from fastapi import FastAPI, UploadFile, File
-from ml.predictor import predict_all
-from ocr.ocr_extractor import extract_text_from_bytes
-from ocr.parse_values import parse_medical_values
+from src.ml.predictor import predict_all
+from src.ocr.ocr_extractor import extract_text_from_bytes
+from src.ocr.parse_values import parse_medical_values
 
 app = FastAPI(title="Medical Report Analyzer API")
 
-@app.post("/predict")
+@app.post("/predict") 
 def predict_manual(values: dict):
     results = predict_all(values)
     return results
