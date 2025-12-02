@@ -27,7 +27,7 @@ def explain(values_dict, predictions):
         label=risk_label(prob) if prob is not None else "Unknown"
         msg=f"{k.title()} risk:{label}"
         if prob is not None:
-            msg+=f"({prob*100:1.f}%)"
+            msg+=f"({prob*100:.1f}%)"
             
         reasons=[]
         if k=="diabetes":

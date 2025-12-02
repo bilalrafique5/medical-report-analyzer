@@ -38,6 +38,7 @@ def show_manual_input():
 
     if st.button("Save & Predict"):
         user_input = {
+            st.header:"Diabetes Features",
             # Diabetes
             "pregnancies": pregnancies,
             "glucose": glucose,
@@ -47,6 +48,8 @@ def show_manual_input():
             "bmi": bmi,
             "diabetespedigreefunction": dpf,
             "age": age,
+            
+            st.header:"Heart Features",
             # Heart
             "sex": sex,
             "cp": cp,
@@ -60,6 +63,7 @@ def show_manual_input():
             "slope": slope,
             "ca": ca,
             "thal": thal,
+            st.header:"Anemia Features",
             # Anemia
             "gender": gender,
             "hemoglobin": hemoglobin,
