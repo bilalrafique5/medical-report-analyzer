@@ -5,7 +5,7 @@ from src.utils.file_handler import save_temp_file, cleanup_file
 
 def show_ocr_upload():
     st.header("Upload Medical Report (OCR)")
-    uploaded=st.file_uploader("Upload image (jpg, png, tiff). Crop report area for best results.", 
+    uploaded=st.file_uploader("Upload image or file (jpg, png, tiff). Crop report area for best results.", 
                               type=["jpg","jpeg","png","tiff"])
     if uploaded is not None:
         tmp_path = save_temp_file(uploaded, prefix="report_")

@@ -6,6 +6,7 @@ def show_manual_input():
     st.write("Enter numeric values from your lab report or manual measurements.")
 
     # --- Diabetes inputs ---
+    st.header("Diabetes Features")
     pregnancies = st.number_input("Pregnancies", min_value=0, max_value=20, value=0)
     glucose = st.number_input("Glucose (mg/dL)", min_value=0.0, max_value=500.0, value=100.0)
     bp = st.number_input("Blood Pressure (mmHg)", min_value=0, max_value=200, value=80)
@@ -16,6 +17,7 @@ def show_manual_input():
     age = st.number_input("Age", min_value=0, max_value=130, value=30)
 
     # --- Heart inputs ---
+    st.header("Heart Disease Features")
     sex = st.selectbox("Sex (0=F,1=M)", [0,1])
     cp = st.selectbox("Chest Pain Type (0-3)", [0,1,2,3])
     trestbps = st.number_input("Resting BP (mmHg)", min_value=0, max_value=300, value=120)
@@ -30,6 +32,7 @@ def show_manual_input():
     thal = st.selectbox("Thalassemia", [1,2,3])
 
     # --- Anemia inputs ---
+    st.header("Anemia Features")
     gender = st.selectbox("Gender (0=F,1=M)", [0,1])
     hemoglobin = st.number_input("Hemoglobin (g/dL)", min_value=0.0, max_value=25.0, value=13.5)
     mch = st.number_input("MCH", min_value=0.0, max_value=50.0, value=28.0)
@@ -38,7 +41,6 @@ def show_manual_input():
 
     if st.button("Save & Predict"):
         user_input = {
-            st.header:"Diabetes Features",
             # Diabetes
             "pregnancies": pregnancies,
             "glucose": glucose,
@@ -48,8 +50,6 @@ def show_manual_input():
             "bmi": bmi,
             "diabetespedigreefunction": dpf,
             "age": age,
-            
-            st.header:"Heart Features",
             # Heart
             "sex": sex,
             "cp": cp,
@@ -63,7 +63,6 @@ def show_manual_input():
             "slope": slope,
             "ca": ca,
             "thal": thal,
-            st.header:"Anemia Features",
             # Anemia
             "gender": gender,
             "hemoglobin": hemoglobin,
