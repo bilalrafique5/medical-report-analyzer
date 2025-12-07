@@ -1,7 +1,7 @@
 from fastapi import FastAPI, UploadFile, File
-from src.ml.predictor import predict_all
-from src.ocr.ocr_extractor import extract_text_from_bytes
-from src.ocr.parse_values import parse_medical_values
+from .ml.predictor import predict_all
+from .ocr.ocr_extractor import extract_text_from_bytes
+from .ocr.parse_values import parse_medical_values
 
 app = FastAPI(title="Medical Report Analyzer API")
 
