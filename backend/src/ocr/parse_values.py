@@ -1,7 +1,7 @@
 # src/ocr/parse_values.py
 
 import re
-from src.ml.feature_map import get_feature_list
+from ml.feature_map import get_feature_list
 
 # Map OCR labels to model feature keys
 OCR_LABEL_MAP = {
