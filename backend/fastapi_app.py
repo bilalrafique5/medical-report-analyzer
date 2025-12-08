@@ -3,11 +3,27 @@ from ml.predictor import predict_all
 from ocr.ocr_extractor import extract_text_from_bytes
 from ocr.parse_values import parse_medical_values
 from schemas import ManualPredictionInput
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(title="Medical Report Analyzer API")
 
 
-@app.post("/predict")
+
+
+origins = [
+    "http://localhost:3000",
+    "http://192.168.1.45:3000"
+    ]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+@app.post("/predict", tags=["Prediction"])
 def predict_manual(values: ManualPredictionInput):
     """
     Manual prediction endpoint:
@@ -22,7 +38,7 @@ def predict_manual(values: ManualPredictionInput):
     return result
 
 
-@app.post("/ocr")
+@app.post("/ocr", tags=["OCR"])
 async def extract_ocr(file: UploadFile = File(...)):
     """
     OCR prediction endpoint:

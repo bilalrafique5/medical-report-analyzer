@@ -1,5 +1,5 @@
 import streamlit as st
-from src.ml.feature_map import FEATURES
+from ml.feature_map import FEATURES
 
 def show_manual_input():
     st.header("Manual Input")
