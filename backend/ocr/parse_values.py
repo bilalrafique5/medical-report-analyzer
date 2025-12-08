@@ -1,9 +1,6 @@
-# src/ocr/parse_values.py
-
 import re
 from ml.feature_map import get_feature_list
 
-# Map OCR labels to model feature keys
 OCR_LABEL_MAP = {
     # Diabetes
     "pregnancies": "Pregnancies",
@@ -35,6 +32,17 @@ OCR_LABEL_MAP = {
     "gender": "Gender"
 }
 
+def safe_convert(val):
+    """Convert OCR-extracted string to float/int safely, return 0 if invalid."""
+    if not val:
+        return 0
+    val = val.strip().replace(',', '')
+    if val in ['', '.']:
+        return 0
+    try:
+        return float(val) if '.' in val else int(val)
+    except ValueError:
+        return 0
 
 def parse_medical_values(text):
     """
@@ -45,12 +53,11 @@ def parse_medical_values(text):
     extracted = {}
 
     for ocr_label, model_key in OCR_LABEL_MAP.items():
-        # Regex: match number after label, ignore parentheses and extra text
         pattern = rf"{ocr_label}.*?([\d.]+)"
         match = re.search(pattern, text_lower)
         if match:
             val = match.group(1)
-            extracted[model_key] = float(val) if '.' in val else int(val)
+            extracted[model_key] = safe_convert(val)
         else:
             extracted[model_key] = 0  # default if not found
 
