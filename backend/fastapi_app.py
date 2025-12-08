@@ -52,9 +52,12 @@ async def extract_ocr(file: UploadFile = File(...)):
 
     # Parse medical values from extracted text
     values = parse_medical_values(text)
-
+    
+    # Run Prediction on the extracted values
+    prediction=predict_all(values)
     # Return text and parsed values to frontend
     return {
         "extracted_text": text,
-        "parsed_values": values
+        "parsed_values": values,
+        "prediction": prediction
     }
