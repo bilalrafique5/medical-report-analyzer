@@ -61,3 +61,10 @@ async def extract_ocr(file: UploadFile = File(...)):
         "parsed_values": values,
         "prediction": prediction
     }
+    
+@app.get("/get_status", tags=["Status"])
+async def get_status():
+    """
+    Health check endpoint
+    """
+    return {"status": "API is running"}
