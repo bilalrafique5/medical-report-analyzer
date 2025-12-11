@@ -1,11 +1,12 @@
-streamlit
+fastapi
+uvicorn
 pandas
 numpy
 scikit-learn==1.6.1
 pillow
 pytesseract
 opencv-python
-matplotlib
-plotly
 joblib
-uvicorn
+python-multipart
+pydantic
+pydantic-settings
